@@ -14,16 +14,27 @@ void Drivers_dmaTrigXbarOpen()
         % let instance = module.$instances[i];
         % let config = module.getInstanceConfig(instance);
         % let xbarOutput = config.xbarOutput;
+		% let mcspiConfig = instance.$ownedBy;
         % if(config.parentName != "NONE"){
         % if(config.parentName == "MCSPI_RX")
         % {
-        %   let csPinName = instance.$ownedBy.CSn.$solution.peripheralPinName;
-        %   xbarOutput = "DMA_TRIG_XBAR_"+instance.$ownedBy.$ownedBy.SPI.$solution.peripheralName+"_DMA_READ_REQ"+csPinName[csPinName.length-1];
+			% if(mcspiConfig.pinMode == "3") {
+			% xbarOutput = "DMA_TRIG_XBAR_"+instance.$ownedBy.$ownedBy.SPI.$solution.peripheralName+"_DMA_READ_REQ0";
+			% }
+			% else {
+			%  let csPinName = instance.$ownedBy.CSn.$solution.peripheralPinName;
+			%  xbarOutput = "DMA_TRIG_XBAR_"+instance.$ownedBy.$ownedBy.SPI.$solution.peripheralName+"_DMA_READ_REQ"+csPinName[csPinName.length-1];
+			% }
         % }
         % else if(config.parentName == "MCSPI_TX")
         % {
-        %   let csPinName = instance.$ownedBy.CSn.$solution.peripheralPinName;
-        %   xbarOutput = "DMA_TRIG_XBAR_"+instance.$ownedBy.$ownedBy.SPI.$solution.peripheralName+"_DMA_WRITE_REQ"+csPinName[csPinName.length-1];
+			% if(mcspiConfig.pinMode == "3") {
+			% xbarOutput = "DMA_TRIG_XBAR_"+instance.$ownedBy.$ownedBy.SPI.$solution.peripheralName+"_DMA_WRITE_REQ0";
+			% }
+			% else {
+			%   let csPinName = instance.$ownedBy.CSn.$solution.peripheralPinName;
+			%   xbarOutput = "DMA_TRIG_XBAR_"+instance.$ownedBy.$ownedBy.SPI.$solution.peripheralName+"_DMA_WRITE_REQ"+csPinName[csPinName.length-1];
+			% }
         % }
         % else if(config.parentName == "UART_RX")
         % {
