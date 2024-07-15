@@ -1,0 +1,44 @@
+%%{
+    let module = system.modules['/drivers/mmcsd/mmcsd'];
+%%}
+/*
+ * MMCSD
+ */
+
+/* MMCSD LLD objects - initialized by the driver */
+MMCSDLLD_Object gMmcsdLldObject[CONFIG_MMCSD_NUM_INSTANCES];
+
+/* MMCSD LLD Init Objects */
+MMCSDLLD_InitObject gMmcsdLldInitObject[CONFIG_MMCSD_NUM_INSTANCES] =
+{
+    % for(let i = 0; i < module.$instances.length; i++) {
+    % let instance = module.$instances[i];
+    % let config = module.getInstanceConfig(instance);
+    % let name = config.name;
+    {
+        .baseAddr               = `config.baseAddr`,
+        .inputClkFreq           = `config.inputClkFreq`U,
+        .intrNum                = `config.intrNum`U,
+        .cardType               = MMCSD_CARD_TYPE_`config.cardType`,
+        .autoAssignMaxSpeed     = `config.autoAssignMaxBusSpeed`,
+        % let modeSelTemp = "";
+        % let modeSelCardTemp = "";
+        % if(config.cardType == "SD") {
+        %     modeSelTemp = config.modeSelectSD;
+        %     modeSelCardTemp = "MMCSD_SD_";
+        % }
+        % else {
+        %     modeSelTemp = config.modeSelectSD;
+        %     modeSelCardTemp = "MMCSD_SD_";
+        % }
+        .uaBusSpeed             = `modeSelCardTemp`MODE_`modeSelTemp`,
+        .busWidth               = `config.supportedBusWidth`,
+        .enableDma              = `config.dmaEnable`,
+        .deviceData             = NULL,
+        .dataBuf                = NULL,
+        .Clock_uSleep           = ClockP_usleep,
+    }
+% }
+};
+
+uint32_t gMmcsdConfigNum = CONFIG_MMCSD_NUM_INSTANCES;

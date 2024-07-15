@@ -48,6 +48,13 @@ MMCSD_Params gMmcsdParams[CONFIG_MMCSD_NUM_INSTANCES] =
         %if((config.cardType == "EMMC") || (config.cardType == "SD")) {
         .dataBuf    = &gMmcsdDataBuf`i`[0],
         %}
+        .transferMode = MMCSD_MODE_`config.transferMode`,
+        %if(config.transferMode == "CALLBACK" && config.transferCallbackFxn != "NULL") {
+        .txnCallbackFxn = `config.transferCallbackFxn`,
+        %}
+        %else{
+        .txnCallbackFxn = NULL,
+        %}
     },
 % }
 };

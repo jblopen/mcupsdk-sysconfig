@@ -1,5 +1,6 @@
 let common = system.getScript("/common");
 let pinmux = system.getScript("/drivers/pinmux/pinmux");
+let hwi    = system.getScript("/kernel/dpl/hwi.js");
 let soc    = system.getScript(`/drivers/mmcsd/soc/mmcsd_${common.getSocName()}`);
 
 let gInputClkFreq = soc.getDefaultConfig().inputClkFreq;
@@ -14,6 +15,7 @@ function getInstanceConfig(moduleInstance) {
     let config = configArr.find(o => o.name === solution.peripheralName);
 
     config.clockFrequencies[0].clkRate = moduleInstance.inputClkFreq;
+    config.clockFrequencies[0].clkId = moduleInstance.clockSource;
 
     return {
         ...config,
@@ -82,7 +84,7 @@ function getPeripheralPinNames(inst) {
 }
 
 function getInterfaceName(inst) {
-	return inst.moduleSelect;
+	return "MMC";
 }
 
 function getClockEnableIds(inst) {
@@ -101,28 +103,12 @@ function getClockFrequencies(inst) {
 
 let mmcsd_module_name = "/drivers/mmcsd/mmcsd";
 
+let gClockSourceOptions = soc.getClockSourceOptions();
+
 let mmcsd_module = {
 	displayName: "MMCSD",
-
 	templates: {
 
-        "/drivers/system/system_config.c.xdt": {
-			driver_config: "/drivers/mmcsd/templates/mmcsd_v1_config.c.xdt",
-			driver_init: "/drivers/mmcsd/templates/mmcsd_init.c.xdt",
-			driver_deinit: "/drivers/mmcsd/templates/mmcsd_deinit.c.xdt",
-		},
-
-		"/drivers/system/system_config.h.xdt": {
-			driver_config: "/drivers/mmcsd/templates/mmcsd.h.xdt",
-		},
-		"/drivers/system/drivers_open_close.c.xdt": {
-            driver_open_close_config: "/drivers/mmcsd/templates/mmcsd_open_close_config.c.xdt",
-            driver_open: "/drivers/mmcsd/templates/mmcsd_open.c.xdt",
-            driver_close: "/drivers/mmcsd/templates/mmcsd_close.c.xdt",
-        },
-        "/drivers/system/drivers_open_close.h.xdt": {
-            driver_open_close_config: "/drivers/mmcsd/templates/mmcsd_open_close.h.xdt",
-        },
         "/drivers/pinmux/pinmux_config.c.xdt": {
             moduleName: mmcsd_module_name,
         },
@@ -139,6 +125,7 @@ let mmcsd_module = {
             displayName: "Select MMCSD Module",
             description: "The MMC is usually connected to the SD card slot",
             default: "MMC",
+            hidden: true,
             options: [
                 { name: "MMC" },
             ],
@@ -148,10 +135,26 @@ let mmcsd_module = {
                 }
             },
         },
+        {
+            name: "clockSource",
+            displayName: "Clock Source",
+            default: "SOC_RcmPeripheralClockSource_DPLL_PER_HSDIV0_CLKOUT1",
+            description: "Clock Source",
+            options: gClockSourceOptions,
+            onChange: function (inst, ui) {
+                // if(inst.inputClkFreq == "MMC") {
+                inst.inputClkFreq = soc.getClockValue(inst.clockSource);
+                // }
+            },
+        },
 		{
 			name: "inputClkFreq",
 			displayName: "Input Clock Frequency (Hz)",
 			default: gInputClkFreq,
+            // options: function(inst) {
+            //     return soc.getClockValue(inst.clockSource);
+            // },
+            hidden: true,
 		},
 		{
 			name: "cardType",
@@ -163,12 +166,99 @@ let mmcsd_module = {
                 { name: "NO_DEVICE" },
             ],
 		},
+        {
+            name: "autoAssignMaxBusSpeed",
+            displayName: "Auto Assign Maximum Speed",
+            default: true,
+            onChange: function (inst, ui) {
+                if(inst.sdkInfra == "LLD")
+                {
+                    let hideConfigs = false;
+                    if(inst.autoAssignMaxBusSpeed == true) {
+                        hideConfigs = true;
+                    }
+
+                    ui.modeSelectSD.hidden = hideConfigs;
+                    ui.supportedBusWidth.hidden = hideConfigs;
+                }
+                else
+                {
+                    /* For HLD */
+                    let hideConfigs = false;
+                    if(inst.autoAssignMaxBusSpeed == true) {
+                        hideConfigs = true;
+                    }
+
+                    ui.modeSelectSD.hidden = hideConfigs;
+                    ui.supportedBusWidth.hidden = hideConfigs;
+                }
+            },
+        },
+        {
+            /* LLD Only */
+            name: "modeSelectSD",
+            displayName: "SD Operating Mode",
+            description: "Select the operating mode for SD",
+            default: soc.getDefaultOperatingModeSD().name,
+            options: soc.getOperatingModesSD(),
+            hidden: true,
+        },
+        {
+            name: "intrPriority",
+            displayName: "Interrupt Priority",
+            default: 4,
+            hidden: false,
+            description: `Interrupt Priority: 0 (highest) to ${hwi.getHwiMaxPriority()} (lowest)`,
+        },
 		{
             name: "intrEnable",
-            displayName: "Interrupt Mode Enable",
-            description: "NOT tested, DO NOT USE",
+            displayName: "Interrupt Enable",
             default: false,
+            hidden: false,
+            onChange: function (inst, ui) {
+                let hideConfigs = false;
+                if(inst.intrEnable == false) {
+                    hideConfigs = true;
+                    inst.transferCallbackFxn = "NULL";
+                    inst.transferMode = "BLOCKING";
+                    ui.transferCallbackFxn.hidden = true;
+                }
+                ui.transferMode.hidden = hideConfigs;
+            },
+            description: "If enabled, Transfer will happen in interrupt Mode",
+        },
+        {
+            name: "transferMode",
+            displayName: "Transfer Mode",
+            default: "BLOCKING",
             hidden: true,
+            options: [
+                {
+                    name: "BLOCKING",
+                    displayName: "Blocking"
+                },
+                {
+                    name: "CALLBACK",
+                    displayName: "Callback"
+                },
+            ],
+            onChange: function (inst, ui) {
+                if(inst.transferMode == "CALLBACK") {
+                    ui.transferCallbackFxn.hidden = false;
+                }
+                else {
+                    inst.transferCallbackFxn = "NULL";
+                    ui.transferCallbackFxn.hidden = true;
+                }
+            },
+            description: "This determines whether the driver operates synchronously or asynchronously",
+        },
+        {
+            name: "transferCallbackFxn",
+            displayName: "Transfer Callback",
+            default: "NULL",
+            hidden: true,
+            description: "Transfer callback function when callback mode is selected",
         },
         {
             name: "dmaEnable",
@@ -190,13 +280,57 @@ let mmcsd_module = {
             name: "supportedBusWidth",
             displayName: "Data Width",
             options: [
-                { name: "MMCSD_BUS_WIDTH_4BIT" },
-                { name: "MMCSD_BUS_WIDTH_1BIT" },
+                {
+                    name: "MMCSD_BUS_WIDTH_4BIT",
+                    displayName: "4BIT"
+                },
+                {
+                    name: "MMCSD_BUS_WIDTH_1BIT",
+                    displayName: "1BIT"
+                },
             ],
             default: "MMCSD_BUS_WIDTH_4BIT",
+            hidden: true,
+        },
+        {
+            /* HLD & LLD */
+            name: "sdkInfra",
+            displayName: "SDK Infra",
+            default: "HLD",
+            options: [
+                {
+                    name: "HLD",
+                    displayName: "HLD"
+                },
+                {
+                    name: "LLD",
+                    displayName: "LLD"
+                },
+            ],
+            onChange: function (inst, ui) {
+
+                if(inst.sdkInfra == "LLD") {
+
+                    ui.intrPriority.hidden = true;
+                    ui.transferMode.hidden = true;
+                    ui.intrEnable.hidden = true;
+                }
+                else {
+
+                    ui.intrPriority.hidden = false;
+                    ui.transferMode.hidden = false;
+                    ui.intrEnable.hidden = false;
+                }
+            },
+            description: "SDK Infra",
             hidden: false,
         },
+
+
+
+
 	],
+    moduleInstances: moduleInstances,
 	getInstanceConfig,
 	pinmuxRequirements,
 	getInterfaceName,
@@ -207,6 +341,32 @@ let mmcsd_module = {
 
 function validate(inst, report) {
 
+}
+
+/*
+ *  ======== moduleInstances ========
+ */
+function moduleInstances(inst) {
+    let modInstances = new Array();
+
+    if(inst.sdkInfra == "HLD")
+    {
+        modInstances.push({
+            name: "MMCSD_child",
+            moduleName: '/drivers/mmcsd/v1/mmcsd_v1_template',
+            },
+        );
+    }
+    else
+    {
+        modInstances.push({
+            name: "MMCSD_child",
+            moduleName: '/drivers/mmcsd/v1/mmcsd_v1_template_lld',
+            },
+        );
+    }
+
+    return (modInstances);
 }
 
 exports = mmcsd_module;

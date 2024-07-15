@@ -13,19 +13,15 @@ static MMCSD_Attrs gMmcsdAttrs[CONFIG_MMCSD_NUM_INSTANCES] =
     % let config = module.getInstanceConfig(instance);
     % let name = config.name;
     {
-        .instNum                = `config.instNum`,
         .baseAddr               = `config.baseAddr`,
-        .intrNum                = `config.intrNum`U,
         .inputClk               = `config.inputClkFreq`U,
-        .outputClk              = `config.outputClk`,
-        .cardType               = MMCSD_CARD_`config.cardType`,
-        .supportedBusWidth      = `config.supportedBusWidth`,
-        .supportedBusVoltages   = MMCSD_BUS_`config.supportedBusVoltages`,
-        .intrEnable             = `config.intrEnable.toString(10).toUpperCase()`,
-        .iodelayFxn             = `config.iodelayFxn`,
-        .switchVoltageFxn       = `config.switchVoltageFxn`,
-        .inputClockControl      = `config.inputClockControl`,
-        .dmaEnable              = `config.dmaEnable.toString(10).toUpperCase()`,
+        .enableDma              = `config.dmaEnable`,
+        .intrEnable             = `config.intrEnable`,
+        .intrPriority           = `config.intrPriority`,
+        .intrNum                = `config.intrNum`U,
+        .cardType               = MMCSD_CARD_TYPE_`config.cardType`,
+        .autoAssignMaxSpeed     = `config.autoAssignMaxBusSpeed`,
+        .uaBusSpeed             = `config.supportedBusWidth`,
     },
 % }
 };
