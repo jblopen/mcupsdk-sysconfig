@@ -114,6 +114,10 @@ function getClockSourceOptions() {
     return [
         {name: "SOC_RcmPeripheralClockSource_DPLL_PER_HSDIV0_CLKOUT1"},
         {name: "SOC_RcmPeripheralClockSource_DPLL_PER_HSDIV0_CLKOUT0"},
+        {name: "SOC_RcmPeripheralClockSource_DPLL_CORE_HSDIV0_CLKOUT0"},
+        {name: "SOC_RcmPeripheralClockSource_SYS_CLK"},
+        {name: "SOC_RcmPeripheralClockSource_XTALCLK"},
+        {name: "SOC_RcmPeripheralClockSource_RCCLK10M"},
     ];
 }
 
@@ -126,8 +130,23 @@ function getClockOptions(clkSrc) {
             {name: 192000000, displayName: "192 MHz"},
         ];
     } else if (clkSrc === "SOC_RcmPeripheralClockSource_DPLL_PER_HSDIV0_CLKOUT0") {
-        res = [{name: 160000000, displayName: "160 MHz"}];
-    } else {
+        res = [{name: 160000000, displayName: "160 MHz"}
+        ];
+    } else if (clkSrc === "SOC_RcmPeripheralClockSource_DPLL_CORE_HSDIV0_CLKOUT0") {
+        res = [{name: 400000000, displayName: "400 MHz"}
+        ];
+    } else if (clkSrc === "SOC_RcmPeripheralClockSource_SYS_CLK") {
+        res = [{name: 200000000, displayName: "200 MHz"}
+        ];
+    } else if (clkSrc === "SOC_RcmPeripheralClockSource_XTALCLK") {
+        res = [{name: 25000000, displayName: "25 MHz"}
+        ];
+    }
+    else if (clkSrc === "SOC_RcmPeripheralClockSource_RCCLK10M") {
+        res = [{name: 10000000, displayName: "10 MHz"}
+        ];
+    }
+    else {
         /* Bad clk source */
     }
 
