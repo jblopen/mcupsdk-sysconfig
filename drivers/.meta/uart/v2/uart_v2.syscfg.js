@@ -462,8 +462,8 @@ function getConfigurables()
                     {
                         ui.writeCallbackFxn.hidden = false;
                     }
-                    ui.rxTrigLvl.hidden = true;
-                    ui.txTrigLvl.hidden = true;
+                    ui.rxTrigLvl.hidden = false;
+                    ui.txTrigLvl.hidden = false;
                     ui.readReturnMode.hidden = true;
                 }
                 if(inst.intrEnable == "USER_INTR") {

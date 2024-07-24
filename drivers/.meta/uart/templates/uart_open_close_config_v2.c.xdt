@@ -146,14 +146,8 @@ UART_Params gUartParams[CONFIG_UART_NUM_INSTANCES] =
             .intrNum            = `config.intrNum`U,
             .intrPriority       = `config.intrPriority`U,
             .operMode           = UART_OPER_MODE_`config.operMode`,
-            %if(config.intrEnable == "DMA") {
-            .rxTrigLvl          = UART_RXTRIGLVL_1,
-            .txTrigLvl          = UART_TXTRIGLVL_1,
-            %}
-            %else {
             .rxTrigLvl          = UART_RXTRIGLVL_`config.rxTrigLvl`,
             .txTrigLvl          = UART_TXTRIGLVL_`config.txTrigLvl`,
-            %}
             .rxEvtNum           = 0U,
             .txEvtNum           = 0U,
         },

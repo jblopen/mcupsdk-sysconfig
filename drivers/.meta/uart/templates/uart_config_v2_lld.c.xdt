@@ -111,15 +111,11 @@ UARTLLD_InitObject gUartInitObject[CONFIG_UART_NUM_LLD_INSTANCES] =
         .intrPriority       = `config.intrPriority`U,
         .operMode           = UART_OPER_MODE_`config.operMode`,
         %if(config.intrEnable == "DMA") {
-        .rxTrigLvl          = UART_RXTRIGLVL_1,
-        .txTrigLvl          = UART_TXTRIGLVL_1,
         .uartDmaHandle      = (UART_DmaHandle) &gEdmaConfig[0],
         .dmaChCfg           = (UART_DmaChConfig) &gUartDmaChCfg,
         %}
-        %else {
         .rxTrigLvl          = UART_RXTRIGLVL_`config.rxTrigLvl`,
         .txTrigLvl          = UART_TXTRIGLVL_`config.txTrigLvl`,
-        %}
         .clockP_get         = ClockP_getTicks,
         .clockP_usecToTick  = ClockP_usecToTicks,
         % if(config.intrEnable != "DISABLE") {
