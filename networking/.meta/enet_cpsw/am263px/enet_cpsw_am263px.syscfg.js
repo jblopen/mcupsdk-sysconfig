@@ -213,7 +213,7 @@ const enet_cpsw_phy2_config =
                 const cpswPhyAddrInfoMap = new Map(
                                            [
                                              ['am263px-cc',{phyAddr1: 3, phyAddr2: 0}],
-                                             ['am263px-cc-addon-ind',{phyAddr1: 3, phyAddr2: 0}],
+                                             ['am263px-cc-addon-ind',{phyAddr1: 3, phyAddr2: 1}],
                                              ['am263px-cc-addon-auto',{phyAddr1: 3, phyAddr2: 12}],
                                              ['am263px-lp', {phyAddr1: 3, phyAddr2: 12}],
                                            ],
@@ -755,6 +755,9 @@ let enet_cpsw_module = {
                 },
                 {
                     name: "am263px-cc-addon-auto",
+                },
+                {
+                    name: "am263px-cc-addon-ind",
                 },
                 {
                     name: "am263px-lp",

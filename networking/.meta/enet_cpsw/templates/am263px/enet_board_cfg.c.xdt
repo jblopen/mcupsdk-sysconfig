@@ -15,6 +15,7 @@
 #include <enet.h>
 #include <networking/enet/core/include/phy/enetphy.h>
 #include <networking/enet/core/include/phy/dp83869.h>
+#include <networking/enet/core/include/phy/dp83826.h>
 #include <networking/enet/core/include/phy/dp83tg720.h>
 #include <networking/enet/utils/include/enet_apputils.h>
 #include <networking/enet/utils/include/enet_appboardutils.h>
@@ -40,7 +41,7 @@ extern EnetPhy_Drv gEnetPhyDrvGeneric;
 %if ((device === "am263px-cc") && (instance.BoardType === "am263px-cc-addon-auto")) {
 extern EnetPhy_Drv gEnetPhyDrvDp83tg720;
 %}else if ((device === "am263px-cc") && (instance.BoardType === "am263px-cc-addon-ind")) {
-extern EnetPhy_Drv gEnetPhyDrvDp83867;
+extern EnetPhy_Drv gEnetPhyDrvdp83826;
 %}else {
 extern EnetPhy_Drv gEnetPhyDrvDp83869;
 %}
@@ -51,7 +52,7 @@ static const EnetPhyDrv_Handle gEnetPhyDrvs[] =
 %if ((device === "am263px-cc") && (instance.BoardType === "am263px-cc-addon-auto")) {
     &gEnetPhyDrvDp83tg720, /* DP83TG720 */
 %}else if ((device === "am263px-cc") && (instance.BoardType === "am263px-cc-addon-ind")) {
-    &gEnetPhyDrvDp83867,   /* DP83867 */
+    &gEnetPhyDrvdp83826,   /* DP83826e */
 %}else {
     &gEnetPhyDrvDp83869,   /* DP83869 */
 %}
@@ -124,6 +125,14 @@ static void EnetBoard_enableExternalMux();
  * \brief Common Processor Board (CPB) board's DP83TG720 PHY configuration.
  */
 static const Dp83tg720_Cfg gEnetCpbBoard_phyCfg =
+{
+
+};
+%}else if (instance.BoardType === "am263px-cc-addon-ind") {
+/*!
+ * \brief Common Processor Board (CPB) board's DP83826e PHY configuration.
+ */
+static const dp83826_Cfg gEnetCpbBoard_phyCfg =
 {
 
 };

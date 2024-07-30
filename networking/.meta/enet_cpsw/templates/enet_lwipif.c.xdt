@@ -210,7 +210,7 @@ typedef struct LwipifEnetApp_Object_s
 % if(module.getDmaInterface(instance) == "ENET_SOC_HOSTPORT_DMA_TYPE_CPDMA") {
 LWIP_MEMPOOL_DECLARE(RX_POOL, ENET_SYSCFG_TOTAL_NUM_RX_PKT, sizeof(Rx_CustomPbuf), "Rx Custom Pbuf pool");
 /* These must be sufficient for total number of rx pbufs and tx packets */
-pbufNode gFreePbufArr[ENET_SYSCFG_TOTAL_NUM_RX_PKT * 2];
+pbufNode gFreePbufArr[ENET_SYSCFG_TOTAL_NUM_RX_PKT * 4];
 %}
 % if(module.getDmaInterface(instance) == "ENET_SOC_HOSTPORT_DMA_TYPE_UDMA") {
 #if UDMA_STATIC_RX_SG_ENABLE
