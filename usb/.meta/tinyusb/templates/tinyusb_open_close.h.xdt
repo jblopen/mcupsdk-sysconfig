@@ -11,7 +11,7 @@
 % }
 
 % if(common.getSocName() == "am261x") {
-#include <usb/synp/soc/device_wrapper.h>
+#include <usb/synp/soc/usb_init.h>
 #include "tusb.h"
 % }
 
