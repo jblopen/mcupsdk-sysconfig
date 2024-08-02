@@ -19,11 +19,6 @@ const bootloader_operatingmode = [
     { name: "Standalone", displayName: "Standalone" },
 ];
 
-const image_format = [
-    { name: "RPRC", displayName: "RPRC Image"},
-    { name: "MCELF", displayName: "Multicore ELF"},
-];
-
 function getDefaultConfig()
 {
     return bootloader_config_r5fss[0];
@@ -43,16 +38,11 @@ function getOperatingMode(){
     return bootloader_operatingmode;
 }
 
-function getImageFormat(){
-    return image_format;
-}
-
 exports = {
     getDefaultConfig,
     getConfigArr,
     getBootMediaArr,
     getOperatingMode,
-    getImageFormat,
 };
 
 

@@ -170,17 +170,6 @@ function getConfig(){
                 default: true,
             });
     }
-	if(["am263x", "am263px", "am261x"].includes(common.getSocName())) {
-		cfg.push(
-			{
-				name: "imageFormat",
-				displayName: "Image Format",
-				description: "Whether to generate the image via rprc flow or multicore elf flow.",
-				default: "RPRC",
-				options: soc.getImageFormat(),
-			}
-		)
-	}
     return cfg;
 }
 
