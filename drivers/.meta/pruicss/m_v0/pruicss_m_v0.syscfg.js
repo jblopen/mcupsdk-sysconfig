@@ -1,6 +1,9 @@
 let common = system.getScript("/common");
 let pinmux = system.getScript("/drivers/pinmux/pinmux");
 let soc = system.getScript(`/drivers/pruicss/soc/pruicss_${common.getSocName()}`);
+let is_am263x_soc = (device === "am263x-cc") ? true : false;
+let is_am263px_soc = (device === "am263px-cc") ? true : false;
+let is_am261x_soc = (device === "am261x-lp") ? true : false;
 
 function getConfigArr() {
     return soc.getConfigArr();
@@ -26,21 +29,39 @@ function getMdioBaseAddr(pruicssInstance)
 
 function getConfigurables()
 {
-    let device = common.getDeviceName();
     let config=new Array();
-    config.push(
-        {
-            name: "instance",
-            displayName: "Instance",
-            default: "ICSSM0",
-            options: [
-                {
-                    name: "ICSSM0",
-                },
-            ],
-        },
-    )
-    if(device==="am263x-cc" || device==="am263-lp" || device==="am263px-cc" || device==="am263px-lp"){
+    if(is_am263x_soc || is_am263px_soc){
+        config.push(
+            {
+                name: "instance",
+                displayName: "Instance",
+                default: "ICSSM0",
+                options: [
+                    {
+                        name: "ICSSM0",
+                    },
+                ],
+            },
+        )
+    } else {
+        config.push(
+            {
+                name: "instance",
+                displayName: "Instance",
+                default: "ICSSM0",
+                options: [
+                    {
+                        name: "ICSSM0",
+                    },
+                    {
+                        name: "ICSSM1",
+                    },
+                ],
+            },
+        )
+    }
+
+    if(is_am263x_soc || is_am263px_soc){
         config.push(
             {
                 name: "INTC MODE",
@@ -88,9 +109,8 @@ let pruicss_top_module = {
     getMdioBaseAddr,
 };
 function moduleInstances(instance) {
-    let device = common.getDeviceName();
     let modInstances = new Array();
-    if(device==="am263x-cc" || device==="am263-lp" || device==="am263px-cc" || device==="am263px-lp"){
+    if(is_am263x_soc || is_am263px_soc){
         modInstances.push({
             name: "AdditionalICSSSettings",
             displayName: "Additional ICSS Settings",
