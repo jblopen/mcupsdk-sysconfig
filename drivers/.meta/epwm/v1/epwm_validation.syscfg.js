@@ -32,7 +32,7 @@ let epwm_validation = [
 
 		},
 			devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -64,7 +64,7 @@ let epwm_validation = [
 
 		},
 			devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -120,7 +120,7 @@ let epwm_validation = [
 
 		},
 			devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -228,7 +228,7 @@ let epwm_validation = [
             /* --------------- ---- --------------- */
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -249,7 +249,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -269,7 +269,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -288,7 +288,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -315,7 +315,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -330,7 +330,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -345,7 +345,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -361,7 +361,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -374,7 +374,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -390,7 +390,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -408,7 +408,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -428,7 +428,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -443,7 +443,7 @@ let epwm_validation = [
 		    }
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -461,7 +461,7 @@ let epwm_validation = [
 		    }
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -479,7 +479,7 @@ let epwm_validation = [
 		    }
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -496,7 +496,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -515,7 +515,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -530,7 +530,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -549,7 +549,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -576,7 +576,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -603,7 +603,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -618,7 +618,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -633,7 +633,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -654,7 +654,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -673,7 +673,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -688,7 +688,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -715,7 +715,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -730,7 +730,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -778,7 +778,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 	},
     // Validation #33
@@ -793,7 +793,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 	},
     // Validation #34
@@ -812,7 +812,7 @@ let epwm_validation = [
 
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -851,7 +851,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-                "am263x"
+                "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -870,7 +870,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -885,7 +885,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -900,7 +900,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -916,7 +916,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -931,7 +931,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -946,7 +946,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -961,7 +961,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -976,7 +976,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 	},
 
@@ -991,7 +991,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -1006,7 +1006,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
 			]
 		},
 
@@ -1021,7 +1021,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #47
@@ -1035,7 +1035,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #48
@@ -1049,7 +1049,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #49
@@ -1063,7 +1063,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #50
@@ -1077,7 +1077,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #51
@@ -1091,7 +1091,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #52
@@ -1108,7 +1108,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #53
@@ -1122,7 +1122,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #54
@@ -1136,7 +1136,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #55
@@ -1151,7 +1151,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #56
@@ -1165,7 +1165,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #57
@@ -1179,7 +1179,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #58
@@ -1193,7 +1193,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 
@@ -1208,7 +1208,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #60
@@ -1223,7 +1223,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #61
@@ -1237,7 +1237,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #62
@@ -1252,7 +1252,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
 	// Validation #63
@@ -1267,7 +1267,7 @@ let epwm_validation = [
 			}
 		},
 		devices : [
-				"am263x"
+				"am263x", "am263px", "am261x"
 			]
 		},
     //Validation #64
@@ -1281,7 +1281,7 @@ let epwm_validation = [
             }
         },
         devices : [
-            "am263x"
+            "am263x", "am263px", "am261x"
         ]
     }
 ]
