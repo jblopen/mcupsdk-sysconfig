@@ -24,6 +24,8 @@ function getSelfSysCfgCoreName() {
             return "m4fss0-0";
         case "am65x":
             return system.context;
+        case "f29h85x":
+            return system.context;
     }
 };
 
@@ -66,6 +68,8 @@ function getSocName() {
         return "awr294x";
     if(system.deviceData.device == "AM62x")
         return "am62x";
+    if(system.deviceData.device == "F29H85x")
+        return "f29h85x";
 };
 
 function getDeviceName() {
