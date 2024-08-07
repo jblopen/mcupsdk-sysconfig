@@ -3,6 +3,7 @@
     let instance = module.$static;
     let ipc_module = system.modules['/drivers/ipc/ipc'];
     let ipc_instance = undefined;
+    let soc = system.getScript('/common').getSocName();
     if(ipc_module)
     {
         ipc_instance = ipc_module.$static;
@@ -11,6 +12,7 @@
 /* ----------- DebugP ----------- */
 void putchar_(char character)
 {
+% if(soc != "f29h85x"){
 % if(instance.enableCssLog) {
     /* Output to CCS console */
     putchar(character);
@@ -31,6 +33,7 @@ void putchar_(char character)
 % if(instance.enableSharedMemLog && !instance.enableSharedMemLogReader) {
     /* Output to shared memory */
     DebugP_shmLogWriterPutChar(character);
+% }
 % }
 }
 

@@ -3,6 +3,7 @@
     let instance = module.$static;
     let ipc_module = system.modules['/drivers/ipc/ipc'];
     let ipc_instance = undefined;
+    let soc = system.getScript('/common').getSocName();
     if(ipc_module)
     {
         ipc_instance = ipc_module.$static;
@@ -17,13 +18,13 @@
 
 % }
     /* Debug log init */
-% if(instance.enableLogZoneError) {
+% if((instance.enableLogZoneError) && (soc != "f29h85x")) {
     DebugP_logZoneEnable(DebugP_LOG_ZONE_ERROR);
 % }
-% if(instance.enableLogZoneWarning) {
+% if((instance.enableLogZoneWarning) && (soc != "f29h85x")) {
     DebugP_logZoneEnable(DebugP_LOG_ZONE_WARN);
 % }
-% if(instance.enableLogZoneInfo) {
+% if((instance.enableLogZoneInfo) && (soc != "f29h85x")) {
     DebugP_logZoneEnable(DebugP_LOG_ZONE_INFO);
 % }
 % if(instance.enableSharedMemLog && !instance.enableSharedMemLogReader) {
