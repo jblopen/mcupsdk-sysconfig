@@ -6,7 +6,8 @@ const mcan_config_r5fss = [
     {
         name            : "MSS_MCANA",
         baseAddr        : "CSL_MSS_MCANA_MSG_RAM_U_BASE",
-        intrNum         : 44,
+        intrNum0        : "CSL_MSS_INTR_MSS_MCANA_INT0",
+        intrNum1        : "CSL_MSS_INTR_MSS_MCANA_INT1",
         clockIds        : [ "SOC_RcmPeripheralId_MSS_MCANA" ],
         clockFrequencies: [
             {
@@ -19,7 +20,8 @@ const mcan_config_r5fss = [
     {
         name            : "MSS_MCANB",
         baseAddr        : "CSL_MSS_MCANB_MSG_RAM_U_BASE",
-        intrNum         : 48,
+        intrNum0        : "CSL_MSS_INTR_MSS_MCANB_INT0",
+        intrNum1        : "CSL_MSS_INTR_MSS_MCANB_INT1",
         clockIds        : [ "SOC_RcmPeripheralId_MSS_MCANB" ],
         clockFrequencies: [
             {

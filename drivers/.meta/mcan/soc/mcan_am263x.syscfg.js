@@ -6,23 +6,25 @@ const mcan_config_r5fss = [
     {
         name            : "MCAN0",
         baseAddr        : "CSL_MCAN0_MSG_RAM_U_BASE",
-        intrNum         : 27,
+        intrNum0        : "CSLR_R5FSS0_CORE0_INTR_MCAN0_MCAN_LVL_INT_0",
+        intrNum1        : "CSLR_R5FSS0_CORE0_INTR_MCAN0_MCAN_LVL_INT_1",
         clockIds        : [ "SOC_RcmPeripheralId_MCAN0" ],
-        clockFrequencies: [ 
-            { 
+        clockFrequencies: [
+            {
                 moduleId: "SOC_RcmPeripheralId_MCAN0",
                 clkId   : "SOC_RcmPeripheralClockSource_DPLL_CORE_HSDIV0_CLKOUT0",
                 clkRate : mcan_func_clk,
             },
-        ],            
+        ],
     },
     {
         name            : "MCAN1",
         baseAddr        : "CSL_MCAN1_MSG_RAM_U_BASE",
-        intrNum         : 30,
+        intrNum0        : "CSLR_R5FSS0_CORE0_INTR_MCAN1_MCAN_LVL_INT_0",
+        intrNum1        : "CSLR_R5FSS0_CORE0_INTR_MCAN1_MCAN_LVL_INT_1",
         clockIds        : [ "SOC_RcmPeripheralId_MCAN1" ],
-        clockFrequencies: [ 
-            { 
+        clockFrequencies: [
+            {
                 moduleId: "SOC_RcmPeripheralId_MCAN1",
                 clkId   : "SOC_RcmPeripheralClockSource_DPLL_CORE_HSDIV0_CLKOUT0",
                 clkRate : mcan_func_clk,
@@ -32,7 +34,8 @@ const mcan_config_r5fss = [
         {
         name            : "MCAN2",
         baseAddr        : "CSL_MCAN2_MSG_RAM_U_BASE",
-        intrNum         : 33,
+        intrNum0        : "CSLR_R5FSS0_CORE0_INTR_MCAN2_MCAN_LVL_INT_0",
+        intrNum1        : "CSLR_R5FSS0_CORE0_INTR_MCAN2_MCAN_LVL_INT_1",
         clockIds        : [ "SOC_RcmPeripheralId_MCAN2" ],
         clockFrequencies: [
             {
@@ -45,7 +48,8 @@ const mcan_config_r5fss = [
     {
         name            : "MCAN3",
         baseAddr        : "CSL_MCAN3_MSG_RAM_U_BASE",
-        intrNum         : 36,
+        intrNum0        : "CSLR_R5FSS0_CORE0_INTR_MCAN3_MCAN_LVL_INT_0",
+        intrNum1        : "CSLR_R5FSS0_CORE0_INTR_MCAN3_MCAN_LVL_INT_1",
         clockIds        : [ "SOC_RcmPeripheralId_MCAN3" ],
         clockFrequencies: [
             {
@@ -70,7 +74,12 @@ function getInterfaceName(instance) {
     return "MCAN";
 }
 
+function getDmaType() {
+    return "EDMA";
+}
+
 exports = {
     getConfigArr,
     getInterfaceName,
+    getDmaType,
 };

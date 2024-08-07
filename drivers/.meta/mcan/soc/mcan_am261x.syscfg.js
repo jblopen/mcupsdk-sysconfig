@@ -6,7 +6,8 @@ const mcan_config_r5fss = [
     {
         name            : "MCAN0",
         baseAddr        : "CSL_MCAN0_MSG_RAM_U_BASE",
-        intrNum         : 27,
+        intrNum0        : 27,
+        intrNum1        : 28,
         clockIds        : [ "SOC_RcmPeripheralId_MCAN0" ],
         clockFrequencies: [
             {
@@ -19,7 +20,8 @@ const mcan_config_r5fss = [
     {
         name            : "MCAN1",
         baseAddr        : "CSL_MCAN1_MSG_RAM_U_BASE",
-        intrNum         : 30,
+        intrNum0        : 30,
+        intrNum1        : 31,
         clockIds        : [ "SOC_RcmPeripheralId_MCAN1" ],
         clockFrequencies: [
             {

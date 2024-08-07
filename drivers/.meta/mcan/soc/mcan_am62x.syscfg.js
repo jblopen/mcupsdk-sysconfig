@@ -6,7 +6,8 @@ const mcan_config_m4fss = [
     {
         name            : "MCU_MCAN0",
         baseAddr        : "CSL_MCU_MCAN0_MSGMEM_RAM_BASE",
-        intrNum         : 43 + 16,
+        intrNum0        : 43 + 16,
+        intrNum1        : 44 + 16,
         clockIds        : [ "TISCI_DEV_MCU_MCAN0" ],
         clockFrequencies: [
             {
@@ -19,7 +20,8 @@ const mcan_config_m4fss = [
     {
         name            : "MCU_MCAN1",
         baseAddr        : "CSL_MCU_MCAN1_MSGMEM_RAM_BASE",
-        intrNum         : 46 + 16,
+        intrNum0        : 46 + 16,
+        intrNum1        : 47 + 16,
         clockIds        : [ "TISCI_DEV_MCU_MCAN1" ],
         clockFrequencies: [
             {

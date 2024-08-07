@@ -51,7 +51,7 @@ const driverVer = {
         version: "v0",
     },
     "mcan": {
-        version: "v0",
+        version: "v1",
     },
     "mcu_bist": {
         version: "v0",

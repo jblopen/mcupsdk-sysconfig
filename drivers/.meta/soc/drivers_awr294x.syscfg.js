@@ -45,7 +45,7 @@ const driverVer = {
         version: "v0",
     },
     "mcan": {
-        version: "v0",
+        version: "v1",
     },
     "qspi": {
         version: "v0",

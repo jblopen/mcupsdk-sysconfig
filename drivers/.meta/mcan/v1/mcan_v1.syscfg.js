@@ -1304,7 +1304,7 @@ let mcan_module = {
         }]
     },
     config: config,
-    sharedModuleInstances: moduleInstances,
+    sharedModuleInstances: addModuleInstances,
     getInstanceConfig,
     pinmuxRequirements,
     getInterfaceName,
@@ -1321,33 +1321,29 @@ function onMigrate(newInst, oldInst, oldSystem) {
 }
 
 /*
- *  ======== moduleInstances ========
+ *  ======== addModuleInstances ========
  */
-function moduleInstances(inst) {
+function addModuleInstances(inst) {
     let modInstances = new Array();
 
     if( inst.sdkInfra == "HLD")
     {
         modInstances.push({
+            name: "edmaDriver",
+            displayName: "EDMA Configuration",
+            moduleName: "/drivers/edma/edma",
+        });
+        modInstances.push({
             name: "child",
-            moduleName: '/drivers/mcan/v0/mcan_v0_template_hld',
+            moduleName: '/drivers/mcan/v1/mcan_v1_template_hld',
             },
         );
-
-        modInstances.push({
-            name: "udmaDriver",
-            displayName: "UDMA Configuration",
-            moduleName: "/drivers/udma/udma",
-            requiredArgs: {
-                instance: "PKTDMA_0",
-            }
-        });
     }
     else
     {
         modInstances.push({
             name: "child",
-            moduleName: '/drivers/mcan/v0/mcan_v0_template',
+            moduleName: '/drivers/mcan/v1/mcan_v1_template',
             },
         );
 
