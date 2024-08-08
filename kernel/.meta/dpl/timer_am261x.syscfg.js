@@ -6,9 +6,6 @@ let timerClockSourceConfig = [
         "name": "WUCPUCLK",
     },
     {
-        "name": "XTALCLK",
-    },
-    {
         "name": "SYS_CLK",
     },
     {
@@ -24,7 +21,10 @@ let timerClockSourceConfig = [
         "name": "DPLL_CORE_HSDIV0_CLKOUT1",
     },
     {
-        "name": "DPLL_PER_HSDIV0_CLKOUT1",
+        "name": "DPLL_PER_HSDIV0_CLKOUT0",
+    },
+    {
+        "name": "DPLL_ETH_HSDIV0_CLKOUT0",
     }
 ];
 
@@ -35,9 +35,6 @@ function getTimerClockSourceValue(instance) {
         default:
         case "WUCPUCLK":
             clkSelMuxValue = 0x000;
-            break;
-        case "XTALCLK":
-            clkSelMuxValue = 0x666;
             break;
         case "SYS_CLK":
             clkSelMuxValue = 0x222;
@@ -54,8 +51,11 @@ function getTimerClockSourceValue(instance) {
         case "DPLL_CORE_HSDIV0_CLKOUT1":
             clkSelMuxValue = 0x444;
             break;
-        case "DPLL_PER_HSDIV0_CLKOUT1":
+        case "DPLL_PER_HSDIV0_CLKOUT0":
             clkSelMuxValue = 0x333;
+            break;
+        case "DPLL_ETH_HSDIV0_CLKOUT0":
+            clkSelMuxValue = 0x666;
             break;
     }
     return clkSelMuxValue;
@@ -71,9 +71,9 @@ function getStaticConfigArr() {
                 timerName: `RTI${i}`,
                 timerBaseAddr: 0x52180000 + i*0x1000,
                 /* RTI Interrupts are not continous. RTI 0-3 are grouped together and RTI 4-7 are grouped separately */
-                timerHwiIntNum: ((i < 4) ? (84 + (7 * i)) : (219 + (7 * (i - 4)))),
+                timerHwiIntNum: 124 + (7 * i),
                 timerInputPreScaler: 1,
-                clkSelMuxAddr: 0x53208000 + 0x114 + 4*i,
+                clkSelMuxAddr: 0x53208000 + 0x140 + 4*i,
                 disableClkSourceConfig: false,
                 lockUnlockDomain: "SOC_DOMAIN_ID_MAIN",
                 lockUnlockPartition: "MSS_RCM_PARTITION0",
@@ -100,11 +100,8 @@ function getTimerClockSourceHz(clkSource) {
         case "WUCPUCLK":
             clkSourceHz = 25*1000000;
         break;
-        case "XTALCLK":
-            clkSourceHz = 25*1000000;
-        break;
         case "SYS_CLK":
-            clkSourceHz = 200*1000000;
+            clkSourceHz = 250*1000000;
         break;
         case "EXT_REFCLK":
             clkSourceHz = 100*1000000;
@@ -113,13 +110,16 @@ function getTimerClockSourceHz(clkSource) {
             clkSourceHz = 10*1000000;
         break;
         case "CTPS_GENF0":
-            clkSourceHz = 250*1000000;
+            clkSourceHz = 50*1000000;
         break;
         case "DPLL_CORE_HSDIV0_CLKOUT1":
             clkSourceHz = 500*1000000;
         break;
-        case "DPLL_PER_HSDIV0_CLKOUT1":
-            clkSourceHz = 192*1000000;
+        case "DPLL_PER_HSDIV0_CLKOUT0":
+            clkSourceHz = 240*1000000;
+        break;
+        case "DPLL_ETH_HSDIV0_CLKOUT0":
+            clkSourceHz = 450*1000000;
         break;
     }
     return clkSourceHz;
@@ -133,10 +133,6 @@ function getBlockedTimers() {
             blockTimers.push('RTI0');
         if(system.contexts["r5fss0-1"])
             blockTimers.push('RTI1');
-        if(system.contexts["r5fss1-0"])
-            blockTimers.push('RTI2');
-        if(system.contexts["r5fss1-1"])
-            blockTimers.push('RTI3');
     }
     return blockTimers;
 }

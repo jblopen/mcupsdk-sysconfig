@@ -95,8 +95,6 @@ function getDefaultInstance() {
     let defaultInstanceMap = {
         "r5fss0-0": 0,
         "r5fss0-1": 1,
-        "r5fss1-0": 2,
-        "r5fss1-1": 3,
         "hsm0-0": 0,
     }
     return defaultInstanceMap[cpu];
