@@ -130,7 +130,7 @@ function getClockOptions(clkSrc) {
         ];
     } else if (clkSrc === "SOC_RcmPeripheralClockSource_DPLL_PER_HSDIV0_CLKOUT2") {
         res = [{name: 160000000, displayName: "160 MHz"}];
-    } else if (clkSrc === "SOC_RcmPeripheralClockSource_DPLL_CORE_HSDIV0_CLKOUT2") {
+    } else if (clkSrc === "SOC_RcmPeripheralClockSource_DPLL_CORE_HSDIV0_CLKOUT0") {
         res = [{name: 500000000, displayName: "500 MHz"}];
     } else {
         /* Bad clk source */

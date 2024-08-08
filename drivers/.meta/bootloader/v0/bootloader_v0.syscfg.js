@@ -107,7 +107,7 @@ function getConfig(){
             hidden: true,
         });
     }
-    if(["am263x", "am263px", "am261x"].includes(common.getSocName())) {
+    if(["am263x", "am263px"].includes(common.getSocName())) {
         cfg.push(
             {
                 name: "R5FSS0operatingMode",
@@ -125,7 +125,7 @@ function getConfig(){
                 options: soc.getOperatingMode(),
             })
     }
-    if(common.getSocName() == "am273x") {
+    if(["am273x", "am261x"].includes(common.getSocName())) {
         cfg.push(
             {
                 name: "R5FSS0operatingMode",
