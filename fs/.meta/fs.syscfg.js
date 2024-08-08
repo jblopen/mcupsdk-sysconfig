@@ -1,7 +1,6 @@
 let common = system.getScript("/common");
 
 let topModules = [
-    "/fs/freertos_fat/freertos_fat",
 ];
 
 const topModulesNull = [
@@ -9,13 +8,19 @@ const topModulesNull = [
 
 function getTopModules() {
     const fsSocList = ["am64x", "am243x", "am263x", "am263px", "am65x"];
-    const lfsSocList = ["am64x", "am243x","am263px"];
-    const lfsPath = "/fs/littlefs/littlefs"
+    const lfsSocList = ["am64x", "am243x","am263px","am263x", "am273x"];
+    const lfsPath = "/fs/littlefs/littlefs";
+    const fsPath = "/fs/freertos_fat/freertos_fat";
+
+    if(fsSocList.includes(common.getSocName())){
+        topModules.push(fsPath);
+    }
+
     if(lfsSocList.includes(common.getSocName())){
         topModules.push(lfsPath);
     }
 
-	if(fsSocList.includes(common.getSocName()) &&
+	if((fsSocList.includes(common.getSocName()) || lfsSocList.includes(common.getSocName())) &&
     !common.getSelfSysCfgCoreName().includes("hsm")) {
 		return topModules;
 	} else {
