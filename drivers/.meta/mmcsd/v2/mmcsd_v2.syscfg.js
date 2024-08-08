@@ -186,7 +186,7 @@ let mmcsd_module = {
 
 	templates: {
 		"/drivers/system/system_config.c.xdt": {
-			driver_config: "/drivers/mmcsd/templates/mmcsd_config.c.xdt",
+			driver_config: "/drivers/mmcsd/templates/mmcsd_v2_config.c.xdt",
 			driver_init: "/drivers/mmcsd/templates/mmcsd_init.c.xdt",
 			driver_deinit: "/drivers/mmcsd/templates/mmcsd_deinit.c.xdt",
 		},
