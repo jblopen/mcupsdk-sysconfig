@@ -224,7 +224,7 @@
 	"AM261x_ZCZ": {
 		"OCRAM": {
 			"start": 0x70000000,
-			"size":  0x00300000,
+			"size":  0x00180000,
             "access": "all"
 		},
 		"FLASH": {
@@ -251,7 +251,7 @@
 	"AM261x_ZFG": {
 		"OCRAM": {
 			"start": 0x70000000,
-			"size":  0x00300000,
+			"size":  0x00180000,
             "access": "all"
 		},
 		"FLASH": {

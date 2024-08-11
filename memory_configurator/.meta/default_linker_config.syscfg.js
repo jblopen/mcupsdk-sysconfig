@@ -808,7 +808,7 @@ function def_memory_regions(regionInst, ind, device, core){
 			else if(ind == 6){
 				regionInst.memory_region[ind].$name               = "USER_SHM_MEM";
 				regionInst.memory_region[ind].auto                = false;
-				regionInst.memory_region[ind].manualStartAddress  = 0x701D0000;
+				regionInst.memory_region[ind].manualStartAddress  = 0x70150000;
 				regionInst.memory_region[ind].size                = 0x4000;
 				regionInst.memory_region[ind].isShared            = true;
 				regionInst.memory_region[ind].shared_cores        = ["r5fss0-1"];
@@ -816,7 +816,7 @@ function def_memory_regions(regionInst, ind, device, core){
 			else if(ind == 7){
 				regionInst.memory_region[ind].$name               = "LOG_SHM_MEM";
 				regionInst.memory_region[ind].auto                = false;
-				regionInst.memory_region[ind].manualStartAddress  = 0x701D4000;
+				regionInst.memory_region[ind].manualStartAddress  = 0x70154000;
 				regionInst.memory_region[ind].size                = 0x4000;
 				regionInst.memory_region[ind].isShared            = true;
 				regionInst.memory_region[ind].shared_cores        = ["r5fss0-1"];
