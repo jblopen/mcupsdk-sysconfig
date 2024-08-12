@@ -36,7 +36,7 @@ void Drivers_epwmSyncoutXbarOpen()
         % else {
             % grp1mask = 0;
         % }
-        % if (socName === "am263px") {
+        % if ((socName === "am263px") || (socName === "am261x")) {
     SOC_xbarSelectPWMSyncOutXBarInput_ext(`base`, `config.name.substr(18)`, `grp0mask`, `grp1mask`);
         % } else {
     SOC_xbarSelectPWMSyncOutXBarInput(`base`, `config.name.substr(18)`, `grp0mask`);

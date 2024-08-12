@@ -84,7 +84,11 @@ void Drivers_outputXbarOpen()
             % }
         % }
         % if(epwm_syncout_mask != "") {
-            % grp9mask += epwm_syncout_mask + " |";
+            % if(socName === "am261x"){
+                % grp8mask += epwm_syncout_mask + " |";
+            % } else {
+                % grp9mask += epwm_syncout_mask + " |";
+            % }
         % }
         % if(grp0mask.length > 1) {
             % grp0mask = grp0mask.slice(0, -1);

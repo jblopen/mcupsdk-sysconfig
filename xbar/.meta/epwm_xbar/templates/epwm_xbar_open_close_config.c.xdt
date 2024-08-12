@@ -19,7 +19,8 @@ void Drivers_epwmXbarOpen()
         % let grp1mask = "(";
         % let grp2mask = "(";
         % let grp3mask = "(";
-        % let grp4mask = {};
+        % let grp4mask = "(";
+        % let externalopt = {};
         % let grp5mask = "(";
         % let grp6mask = "(";
         % let grp7mask = "(";
@@ -29,7 +30,7 @@ void Drivers_epwmXbarOpen()
             % let group = soc.getOptionList("INTERNAL").find(o => o.name == config.xbarOutput[i]).group;
             % let path = soc.getOptionList("INTERNAL").find(o => o.name == config.xbarOutput[i]).path;
             % if (path.search("<-") != -1) {
-                % grp4mask[config.name] = 0;
+                % externalopt[config.name] = 0;
             % }
             % else if(group == 0) {
                 % grp0mask += (" EPWM_XBAR_" + config.xbarOutput[i] + " |");
@@ -40,8 +41,11 @@ void Drivers_epwmXbarOpen()
             % else if(group == 2) {
                 % grp2mask += (" EPWM_XBAR_" + config.xbarOutput[i] + " |");
             % }
-            % else if(group == 3) {
+            % else if((group == 3) && ((socName === "am263x") || (socName === "am263px"))) {
                 % grp3mask += (" EPWM_XBAR_" + config.xbarOutput[i] + " |");
+            % }
+            % else if((group == 4) && (socName === "am261x")) {
+                % grp4mask += (" EPWM_XBAR_" + config.xbarOutput[i] + " |");
             % }
             % else if(group == 5) {
                 % grp5mask += (" EPWM_XBAR_" + config.xbarOutput[i] + " |");
@@ -80,18 +84,29 @@ void Drivers_epwmXbarOpen()
         % else {
             % grp2mask = 0;
         % }
-        % if(grp3mask.length > 1) {
-            % grp3mask = grp3mask.slice(0, -1);
-            % grp3mask += ")";
+        % if((socName === "am263x") || (socName === "am263px")) {
+            % if(grp3mask.length > 1) {
+                % grp3mask = grp3mask.slice(0, -1);
+                % grp3mask += ")";
+            % }
+            % else {
+                % grp3mask = 0;
+            % }
+        % }
+        % if(socName === "am261x") {
+            % if(grp4mask.length > 1) {
+                % grp4mask = grp4mask.slice(0, -1);
+                % grp4mask += ")";
+            % }
+            % else {
+                % grp4mask = 0;
+            % }
+        % }
+        % if(externalopt[config.name] == 0) {
+            % externalopt = "(" + config.name + ")";
         % }
         % else {
-            % grp3mask = 0;
-        % }
-        % if(grp4mask[config.name] == 0) {
-            % grp4mask = "(" + config.name + ")";
-        % }
-        % else {
-            % grp4mask = 0;
+            % externalopt = 0;
         % }
         % if(grp5mask.length > 1) {
             % grp5mask = grp5mask.slice(0, -1);
@@ -128,11 +143,13 @@ void Drivers_epwmXbarOpen()
         % else {
             % grp9mask = 0;
         % }
-        % if ( socName === "am263px") {
-    SOC_xbarSelectPWMXBarInputSource_ext(`base`, `config.name.substr(10)`, `grp0mask`, `grp1mask`, `grp2mask`, `grp3mask`, `grp4mask`, `grp5mask`, `grp6mask`, `grp7mask`, `grp8mask`, `grp9mask`);
+        % if (socName === "am263px") {
+    SOC_xbarSelectPWMXBarInputSource_ext(`base`, `config.name.substr(10)`, `grp0mask`, `grp1mask`, `grp2mask`, `grp3mask`, `externalopt`, `grp5mask`, `grp6mask`, `grp7mask`, `grp8mask`, `grp9mask`);
+        % } else if (socName === "am261x") {
+    SOC_xbarSelectPWMXBarInputSource_ext(`base`, `config.name.substr(10)`, `grp0mask`, `grp1mask`, `grp2mask`, `externalopt`, `grp4mask`, `grp5mask`, `grp6mask`, `grp7mask`, `grp8mask`, `grp9mask`);
         % }
         % else {
-    SOC_xbarSelectPWMXBarInputSource(`base`, `config.name.substr(10)`, `grp0mask`, `grp1mask`, `grp2mask`, `grp3mask`, `grp4mask`, `grp5mask`, `grp6mask`, `grp7mask`, `grp8mask`);
+    SOC_xbarSelectPWMXBarInputSource(`base`, `config.name.substr(10)`, `grp0mask`, `grp1mask`, `grp2mask`, `grp3mask`, `externalopt`, `grp5mask`, `grp6mask`, `grp7mask`, `grp8mask`);
         % }
     % }
     SOC_xbarInvertPWMXBarOutputSignalBeforeLatch(`base`, `mask`);

@@ -41,7 +41,7 @@ void Drivers_dmaXbarOpen()
         % else if(group == 6) {
             % grp6_muxctl = xbarOutput;
         % }
-        % if (socName === "am263px") {
+        % if ((socName === "am263px") || (socName === "am261x")) {
     SOC_xbarSelectDMAXBarInputSource_ext(`base`, `config.name.substr(23)`, `group`, `grp0_muxctl`, `grp1_muxctl`, `grp2_muxctl`, `grp3_muxctl`, `grp4_muxctl`, `grp5_muxctl`, `grp6_muxctl`);
         % }else {
     SOC_xbarSelectDMAXBarInputSource(`base`, `config.name.substr(23)`, `group`, `grp0_muxctl`, `grp1_muxctl`, `grp2_muxctl`, `grp3_muxctl`, `grp4_muxctl`, `grp5_muxctl`);

@@ -141,7 +141,7 @@ void Drivers_intXbarOpen()
         % else {
             % grp9mask = 0;
         % }
-        % if (socName === "am263px") {
+        % if ((socName === "am263px") || (socName === "am261x")) {
     SOC_xbarSelectInterruptXBarInputSource_ext(`base`, `config.name.substr(9)`, `grp0mask`, `grp1mask`, `grp2mask`, `grp3mask`, `grp4mask`, `grp5mask`, `grp6mask`, `grp7mask`, `grp8mask`, `grp9mask`);
         % } else {
     SOC_xbarSelectInterruptXBarInputSource(`base`, `config.name.substr(9)`, `grp0mask`, `grp1mask`, `grp2mask`, `grp3mask`, `grp4mask`, `grp5mask`, `grp6mask`);

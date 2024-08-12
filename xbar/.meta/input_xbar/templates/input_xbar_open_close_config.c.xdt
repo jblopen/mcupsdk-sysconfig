@@ -21,7 +21,7 @@ void Drivers_inputXbarOpen()
         % else {
             % grp1_muxctl = xbarOutput;
         % }
-        % if (socName === "am263px")
+        % if ((socName === "am263px") || (socName === "am261x"))
         % {
             % let grp2_muxctl = 0;
             % if (group == 2)
