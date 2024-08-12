@@ -26,6 +26,11 @@ const mmcsd_config_r5fss = [
 	},
 ];
 
+const operating_modes_sd = [
+    { name : "DS", displayName : "DS"},
+    { name : "HS", displayName : "HS"},
+];
+
 function getDefaultConfig() {
 	return mmcsd_config_r5fss[0];
 }
@@ -34,7 +39,38 @@ function getConfigArr() {
 	return mmcsd_config_r5fss;
 }
 
+function getClockSourceOptions() {
+    return [
+        {name: "SOC_RcmPeripheralClockSource_DPLL_PER_HSDIV0_CLKOUT1"},
+        {name: "SOC_RcmPeripheralClockSource_DPLL_CORE_HSDIV0_CLKOUT0"},
+    ];
+}
+
+function getClockValue(clkSrc) {
+    let clockVal;
+    if(clkSrc === "SOC_RcmPeripheralClockSource_DPLL_PER_HSDIV0_CLKOUT1") {
+        clockVal = 192000000;
+    } else if (clkSrc === "SOC_RcmPeripheralClockSource_DPLL_CORE_HSDIV0_CLKOUT0") {
+        clockVal = 200000000;
+    } else {
+        /* Bad clk source */
+    }
+    return clockVal;
+}
+
+function getDefaultOperatingModeSD() {
+    return { name : "DS", displayName : "DS"};
+}
+
+function getOperatingModesSD() {
+    return operating_modes_sd;
+}
+
 exports = {
 	getDefaultConfig,
 	getConfigArr,
+	getClockSourceOptions,
+    getClockValue,
+    getDefaultOperatingModeSD,
+    getOperatingModesSD,
 };
