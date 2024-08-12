@@ -27,7 +27,7 @@
     let hosts = new Array();
     for (const value of channelHostMap.values())
         hosts.push(value);
-%%}s
+%%}
 /*
  *  `module.$instances[0].icssInstance`_INTC
  */
