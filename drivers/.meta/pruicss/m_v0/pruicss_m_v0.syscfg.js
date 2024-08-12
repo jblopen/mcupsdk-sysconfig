@@ -1,6 +1,7 @@
 let common = system.getScript("/common");
 let pinmux = system.getScript("/drivers/pinmux/pinmux");
 let soc = system.getScript(`/drivers/pruicss/soc/pruicss_${common.getSocName()}`);
+let device = common.getDeviceName();
 let is_am263x_soc = (device === "am263x-cc") ? true : false;
 let is_am263px_soc = (device === "am263px-cc") ? true : false;
 let is_am261x_soc = (device === "am261x-lp") ? true : false;
