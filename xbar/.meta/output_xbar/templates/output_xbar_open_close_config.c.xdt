@@ -3,6 +3,7 @@ void Drivers_outputXbarOpen()
     %%{
         let common = system.getScript("/common");
         let soc = system.getScript(`/xbar/output_xbar/soc/output_xbar_${common.getSocName()}`);
+        let socName = common.getSocName();
         let module = system.modules['/xbar/output_xbar/output_xbar'];
     %%}
     % let base = "CSL_CONTROLSS_OUTPUTXBAR_U_BASE";
