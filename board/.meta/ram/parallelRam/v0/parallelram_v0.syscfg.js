@@ -74,7 +74,6 @@ function moduleInstances(inst) {
     };
 
     let requiredArgsGpio = {
-        $name: "CONFIG_PSRAM_GPIO_ZZ",
         pinDir: "OUTPUT",
     };
 
