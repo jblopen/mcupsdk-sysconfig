@@ -15,8 +15,8 @@
  * IOEXP `instance.name`
  */
 #include <board/ioexp/ioexp_`expName`.h>
-%   expName = expName.toUpperCase()
 %       }
+%   expName = expName.toUpperCase()
 %       for(let pin of staticArrCfg.pinSet){
 %           let pinName_filtered = pin.pinName.replace(".","_").replace("/","_");
 %           let element_name = staticArrCfg.name+"_"+"port"+pin.portNumber+"_"+"pin"+pinName_filtered;
