@@ -40,7 +40,7 @@ function getInterfaceName(inst)
 
 function getPeripheralPinNames(inst)
 {
-    if(common.getSocName() == "am263px"){
+    if(common.getSocName() == "am263px" || common.getSocName() == "am261x"){
         return [ "XBAROUT" ];
     }
     else{
