@@ -151,6 +151,7 @@ function onChangeMsgRamConfig(inst, ui)
 function onChangeHideHLDParams(inst, ui)
 {
     if(inst.sdkInfra == "LLD") {
+        ui.operMode.hidden = true;
         ui.transferMode.hidden = true;
         ui.transferCallbackFxn.hidden = true;
         ui.errorCallbackFxn.hidden = true;
@@ -244,15 +245,13 @@ function onChangeHideHLDParams(inst, ui)
         ui.samplingDataBitRate.hidden = false;
     }
     else {
+        ui.operMode.hidden = false;
+        ui.transferMode.hidden = false;
         if((inst.intrEnable == "INTERRUPT") || (inst.intrEnable == "DMA"))
         {
-            ui.transferMode.hidden = false;
-            if(inst.transferMode == "CALLBACK")
-            {
-                ui.transferCallbackFxn.hidden = false;
-                ui.errorCallbackFxn.hidden = false;
-            }
-            else
+            ui.transferCallbackFxn.hidden = false;
+            ui.errorCallbackFxn.hidden = false;
+            if(inst.transferMode != "CALLBACK")
             {
                 ui.transferCallbackFxn.hidden = true;
                 ui.errorCallbackFxn.hidden = true;
@@ -260,8 +259,8 @@ function onChangeHideHLDParams(inst, ui)
         }
         else
         {
-            ui.transferMode.hidden = true;
             ui.transferCallbackFxn.hidden = true;
+            ui.errorCallbackFxn.hidden = true;
         }
         ui.fdMode.hidden = false;
         ui.brsEnable.hidden = false;
@@ -343,6 +342,7 @@ function onChangeHideHLDParams(inst, ui)
         ui.nomRatePrescalar.hidden = true;
         ui.nomTimeSeg1.hidden = true;
         ui.nomTimeSeg2.hidden = true;
+        ui.nomSynchJumpWidth.hidden = true;
         ui.dataRatePrescalar.hidden = true;
         ui.dataTimeSeg1.hidden = true;
         ui.dataTimeSeg2.hidden = true;
@@ -405,10 +405,10 @@ let config = [
         displayName: "General Configuration",
         config: [
             {
-                name: "operMode", /* Did not change name to avoid interface break */
+                name: "operMode", /* Do not change name to avoid interface break */
                 displayName: "Operating Mode",
                 default: "INTERRUPT",
-                hidden: false,
+                hidden: true,
                 options: [
                     {
                         name: "POLLED",
@@ -424,17 +424,24 @@ let config = [
                     },
                 ],
                 onChange: function (inst, ui) {
-                    if(inst.intrEnable == "POLLED") {
+                    if(inst.operMode == "POLLED") {
                         ui.intrPriority.hidden = true;
+                        inst.transferMode = "BLOCKING";
+                        inst.transferCallbackFxn = "NULL";
+                        inst.errorCallbackFxn = "NULL";
                         ui.transferMode.hidden = true;
                         ui.transferCallbackFxn.hidden = true;
+                        ui.errorCallbackFxn.hidden = true;
                     }
-                    if((inst.intrEnable == "INTERRUPT") || (inst.intrEnable == "DMA")) {
+                    if((inst.operMode == "INTERRUPT") || (inst.operMode == "DMA")) {
                         ui.intrPriority.hidden = false;
                         ui.transferMode.hidden = false;
-                        if(inst.transferMode == "CALLBACK")
+                        ui.transferCallbackFxn.hidden = false;
+                        ui.errorCallbackFxn.hidden = false;
+                        if(inst.transferMode != "CALLBACK")
                         {
-                            ui.transferCallbackFxn.hidden = false;
+                            ui.transferCallbackFxn.hidden = true;
+                            ui.errorCallbackFxn.hidden = true;
                         }
                     }
                 },
@@ -444,7 +451,7 @@ let config = [
                 name: "transferMode",
                 displayName: "Transfer Mode",
                 default: "BLOCKING",
-                hidden: false,
+                hidden: true,
                 options: [
                     {
                         name: "BLOCKING",
@@ -458,15 +465,18 @@ let config = [
                 onChange: function (inst, ui) {
                     if(inst.transferMode == "CALLBACK") {
                         ui.transferCallbackFxn.hidden = false;
+                        ui.errorCallbackFxn.hidden = false;
                         if(inst.transferCallbackFxn == "NULL") {
                             /* Clear NULL entry as user need to provide a fxn */
                             inst.transferCallbackFxn = "";
+                            inst.errorCallbackFxn = "";
                         }
                     }
                     else {
                         ui.transferCallbackFxn.hidden = true;
                         ui.errorCallbackFxn.hidden = true;
                         inst.transferCallbackFxn = "NULL";
+                        inst.errorCallbackFxn = "NULL";
                     }
                 },
                 description: "This determines whether the driver operates synchronously or asynchronously",
@@ -475,7 +485,7 @@ let config = [
                 name: "intrPriority",
                 displayName: "Interrupt Priority",
                 default: 4,
-                hidden: false,
+                hidden: true,
                 description: `Interrupt Priority: 0 (highest) to ${hwi.getHwiMaxPriority()} (lowest)`,
             },
             {
@@ -496,7 +506,7 @@ let config = [
                 name        : "fdMode",
                 displayName : "Enable CAN FD Mode",
                 description : 'Whether CAN flexible data mode to be enabled.',
-                hidden      : false,
+                hidden      : true,
                 default     : true,
             },
             {
@@ -504,21 +514,21 @@ let config = [
                 displayName: "Enable Bit Rate Switching",
                 description: `This enables the bit rate switching for MCAN.`,
                 default: true,
-                hidden : false,
+                hidden : true,
             },
             {
                 name: "enableLoopback",
                 displayName: "Enable Loopback mode ",
                 description: `This enables internal loopback mode for MCAN.`,
                 default: true,
-                hidden : false,
+                hidden : true,
             },
             {
                 name: "loopbackMode",
-                displayName: "Enable Loopback mode ",
+                displayName: "Loopback mode ",
                 description: `This enables internal loopback mode for MCAN.`,
                 default: "INTERNAL",
-                hidden : false,
+                hidden : true,
                 options: [
                     {
                         name: "INTERNAL",
@@ -534,63 +544,63 @@ let config = [
                 name        : "txpEnable",
                 displayName : "Enable Transmit pause",
                 description : 'Enable Transmit pause.',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
                 name        : "efbi",
                 displayName : "Enable Edge filtering",
                 description : 'Enable Edge filtering.',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
                 name        : "pxhddisable",
                 displayName : "Enable Protocol exception handling",
                 description : 'Enable Protocol exception handling',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
                 name        : "darEnable",
-                displayName : "Disable Automatic retransmission of message",
+                displayName : "Disable Automatic retransmission",
                 description : 'Disable Automatic retransmission of message.',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
                 name        : "wkupReqEnable",
                 displayName : "Enable Wakeup request",
                 description : 'Enable Wakeup request.',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
                 name        : "autoWkupEnable",
                 displayName : "Enable Auto-Wakeup",
                 description : 'Enable Auto-Wakeup.',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
                 name        : "emulationEnable",
                 displayName : "Enable Emulation/Debug Suspend",
                 description : 'Enable Emulation/Debug Suspend.',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
                 name        : "emulationFAck",
-                displayName : "Enable Emulation/Debug Suspend Fast Ack",
+                displayName : "Enable Emulation Suspend Fast Ack",
                 description : 'Enable Emulation/Debug Suspend Fast Ack.',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
                 name        : "clkStopFAck",
                 displayName : "Enable Clock Stop Fast Acke",
                 description : 'Enable Clock Stop Fast Ack.',
-                hidden      : false,
+                hidden      : true,
                 default     : false,
             },
             {
@@ -598,61 +608,62 @@ let config = [
                 displayName: "Enable Transmit pause",
                 description: `This enables Transmit pause for MCAN.`,
                 default: false,
-                hidden : false,
+                hidden : true,
             },
             {
                 name: "enableEdgeFiltering",
                 displayName: "Enable Edge filtering",
                 description: `This enables Edge filtering for MCAN.`,
                 default: false,
-                hidden : false,
+                hidden : true,
             },
             {
                 name: "enableProtocolExceptionHandling",
                 displayName: "Enable Protocol exception handling",
                 description: `This enables Protocol exception handling for MCAN.`,
                 default: false,
-                hidden : false,
+                hidden : true,
             },
             {
                 name: "disableAutomaticRetransmission",
-                displayName: "Disable Automatic retransmission of message",
+                displayName: "Disable Automatic retransmission",
                 description: `This Disables Automatic retransmission of message for MCAN.`,
                 default: false,
+                hidden: true,
             },
             {
                 name: "enableWakeupRequest",
                 displayName: "Enable Wakeup request",
                 description: `This enables Wakeup request for MCAN.`,
                 default: false,
-                hidden : false,
+                hidden : true,
             },
             {
                 name: "enableAutoWakeup",
                 displayName: "Enable Auto-Wakeup",
                 description: `This Enables Auto-Wakeup for MCAN.`,
                 default: false,
-                hidden : false,
+                hidden : true,
             },
             {
                 name        : "wdcPreload",
-                displayName : "Message RAM Watchdog Counter preload Value",
+                displayName : "Watchdog Counter preload Value",
                 description : 'Message RAM Watchdog Counter preload Value.',
-                hidden      : false,
+                hidden      : true,
                 default     : 0xFF,
             },
             {
                 name            : "errInterruptEnable",
-                displayName     : "Enable/Disable error/status interrupts",
+                displayName     : "Enable/Disable error/status intr",
                 longDescription : 'Enable/Disable error/status interrupts. Must be enabled to receive error and status interrupts.',
-                hidden          : false,
+                hidden          : true,
                 default         : true,
             },
             {
                 name            : "dataInterruptEnable",
                 displayName     : "Enable/Disable data interrupts.",
                 longDescription : 'Enable/Disable data interrupts. Must be enabled to receive transmit complete and data receive interrupts.',
-                hidden          : false,
+                hidden          : true,
                 default         : true,
             },
         ]
@@ -663,22 +674,22 @@ let config = [
         config: [
             {
                 name        : "tdcEnable",
-                displayName : "Enable Transmitter Delay Compensation",
+                displayName : "Enable TDC",
                 description : 'Enable Transmitter Delay Compensation.',
-                hidden      : false,
+                hidden      : true,
                 onChange    : onChangeUseTdc,
                 default     : false,
             },
             {
                 name        : "tdcConfig_tdcf",
-                displayName : "Transmitter Delay Compensation Filter Window Length (CAN Module Clk Cycles)",
+                displayName : "TDC Filter Window Length",
                 description : 'Transmitter Delay Compensation Filter Window Length (CAN Module Clk Cycles).',
                 hidden      : true,
                 default     : 0xA,
             },
             {
                 name        : "tdcConfig_tdco",
-                displayName : "Transmitter Delay Compensation Offset (CAN Module Clk Cycles)",
+                displayName : "TDC Offset",
                 description : 'Transmitter Delay Compensation Offset (CAN Module Clk Cycles).',
                 hidden      : true,
                 default     : 0x6,
@@ -693,7 +704,7 @@ let config = [
                 name        : "additionalCoreConfig",
                 displayName : "Enable Additional Core Configuration",
                 description : 'Enable Additional Core Configuration.',
-                hidden      : false,
+                hidden      : true,
                 onChange    : onChangeUseAddCon,
                 default     : false,
             },
@@ -812,30 +823,30 @@ let config = [
             },
             {
                 name        : "flssa",
-                displayName : "Standard ID Filter List Start Address",
+                displayName : "Standard ID Filter List Start Addr",
                 description : 'Standard ID Filter List Start Address.',
-                hidden      : false,
+                hidden      : true,
                 default     : 0x0,
             },
             {
                 name        : "lss",
                 displayName : "No of Standard ID Filters",
                 description : 'No of Standard ID Filters.',
-                hidden      : false,
+                hidden      : true,
                 default     : 0x1,
             },
             {
                 name        : "flesa",
-                displayName : "Extended ID Filter List Start Address",
+                displayName : "Extended ID Filter List Start Addr",
                 description : 'Extended ID Filter List Start Address.',
-                hidden      : false,
+                hidden      : true,
                 default     : 48,
             },
             {
                 name        : "lse",
                 displayName : "No of Extended ID Filters",
                 description : 'No of Extended ID Filters.',
-                hidden      : false,
+                hidden      : true,
                 default     : 1,
             },
             {
@@ -846,21 +857,21 @@ let config = [
                         name        : "txBufNum",
                         displayName : "Number of Dedicated Transmit Buffers",
                         description : 'Number of Dedicated Transmit Buffers.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : 10,
                     },
                     {
                         name        : "txFIFOSize",
                         displayName : "No of Tx FIFO Elements",
                         description : 'No of Tx FIFO Elements.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : 0,
                     },
                     {
                         name        : "txBufMode",
                         displayName : "Tx FIFO operation Mode",
                         description : 'Tx FIFO operation Mode.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : "0",
                         options     : [
                             {name: "0", displayName : "Tx FIFO operation"},
@@ -871,7 +882,7 @@ let config = [
                         name        : "txBufElemSize",
                         displayName : "Tx Buffer Element Size",
                         description : 'Tx Buffer Element Size.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : MCAN_elemSize[7].name,
                         options     : MCAN_elemSize,
                     },
@@ -879,14 +890,14 @@ let config = [
                         name        : "txEventFIFOSize",
                         displayName : "Tx Event FIFO Size",
                         description : 'Tx Event FIFO Size.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : 10,
                     },
                     {
                         name        : "txEventFIFOWaterMark",
-                        displayName : "Level for Tx Event FIFO watermark interrupt",
+                        displayName : "Tx Event FIFO Level watermark intr",
                         description : 'Level for Tx Event FIFO watermark interrupt.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : 3,
                     },
                 ]
@@ -899,21 +910,21 @@ let config = [
                         name        : "rxFIFO0size",
                         displayName : "Number of Rx FIFO0 elements",
                         description : 'Number of Rx FIFO0 elements.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : 10,
                     },
                     {
                         name        : "rxFIFO0waterMark",
                         displayName : "Rx FIFO0 Watermark",
                         description : 'Rx FIFO0 Watermark.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : 3,
                     },
                     {
                         name        : "rxFIFO0OpMode",
                         displayName : "FIFO0 operation mode",
                         description : 'FIFO0 operation mode.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : MCAN_fifoOPMode[0].name,
                         options     : MCAN_fifoOPMode,
                     },
@@ -921,21 +932,21 @@ let config = [
                         name        : "rxFIFO1size",
                         displayName : "Number of Rx FIFO1 elements",
                         description : 'Number of Rx FIFO1 elements.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : 10,
                     },
                     {
                         name        : "rxFIFO1waterMark",
                         displayName : "Rx FIFO1 Watermark",
                         description : 'Rx FIFO1 Watermark.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : 3,
                     },
                     {
                         name        : "rxFIFO1OpMode",
                         displayName : "FIFO1 operation mode",
                         description : 'FIFO1 operation mode.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : MCAN_fifoOPMode[0].name,
                         options     : MCAN_fifoOPMode,
                     },
@@ -943,7 +954,7 @@ let config = [
                         name        : "rxBufElemSize",
                         displayName : "Rx Buffer Element Size",
                         description : 'Rx Buffer Element Size.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : MCAN_elemSize[7].name,
                         options     : MCAN_elemSize,
                     },
@@ -951,7 +962,7 @@ let config = [
                         name        : "rxFIFO0ElemSize",
                         displayName : "Rx FIFO0 Element Size",
                         description : 'Rx FIFO0 Element Size.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : MCAN_elemSize[7].name,
                         options     : MCAN_elemSize,
                     },
@@ -959,7 +970,7 @@ let config = [
                         name        : "rxFIFO1ElemSize",
                         displayName : "Rx FIFO1 Element Size",
                         description : 'Rx FIFO1 Element Size.',
-                        hidden      : false,
+                        hidden      : true,
                         default     : MCAN_elemSize[7].name,
                         options     : MCAN_elemSize,
                     },
@@ -975,22 +986,22 @@ let config = [
                 name        : "eccEnable",
                 displayName : "Enable ECC Configuration",
                 description : 'Enable ECC Configuration.',
-                hidden      : false,
+                hidden      : true,
                 default     : true,
             },
             {
                 name        : "enableChk",
                 displayName : "Enable/disable ECC Check",
                 description : 'Enable/disable ECC Check.',
-                hidden      : false,
+                hidden      : true,
                 default     : true,
 
             },
             {
                 name        : "enableRdModWr",
-                displayName : "Enable/disable Read Modify Write operation",
+                displayName : "Enable Read Modify Write",
                 description : 'Enable/disable Read Modify Write operation',
-                hidden      : false,
+                hidden      : true,
                 default     : true,
             },
         ]
@@ -1005,6 +1016,7 @@ let config = [
             displayName: "Nominal Baud Rate Pre-scaler",
             default: 4,
             displayFormat: "dec",
+            hidden: true,
             onChange: function (inst, ui) {
                 inst.canfdNomBitRate = (80000 / (inst.nomBrp) / (1 + (inst.nomPropSeg + inst.nomPseg1) + inst.nomPseg2))
                 inst.canfdSamplingNomBitRate = (100 * (1 + (inst.nomPropSeg + inst.nomPseg1)) / (1 + (inst.nomPropSeg + inst.nomPseg1) + inst.nomPseg2))
@@ -1015,6 +1027,7 @@ let config = [
             displayName: "NominalProp Segment value ",
             default: 8,
             displayFormat: "dec",
+            hidden: true,
             onChange: function (inst, ui) {
                 inst.canfdNomBitRate = (80000 / (inst.nomBrp) / (1 + (inst.nomPropSeg + inst.nomPseg1) + inst.nomPseg2))
                 inst.canfdSamplingNomBitRate = (100 * (1 + (inst.nomPropSeg + inst.nomPseg1)) / (1 + (inst.nomPropSeg + inst.nomPseg1) + inst.nomPseg2))
@@ -1025,6 +1038,7 @@ let config = [
             displayName: "NominalPhase Segment1 value",
             default: 6,
             displayFormat: "dec",
+            hidden: true,
             onChange: function (inst, ui) {
                 inst.canfdNomBitRate = (80000 / (inst.nomBrp) / (1 + (inst.nomPropSeg + inst.nomPseg1) + inst.nomPseg2))
                 inst.canfdSamplingNomBitRate = (100 * (1 + (inst.nomPropSeg + inst.nomPseg1)) / (1 + (inst.nomPropSeg + inst.nomPseg1) + inst.nomPseg2))
@@ -1035,6 +1049,7 @@ let config = [
             displayName: "NominalPhase Segment2 value",
             default: 5,
             displayFormat: "dec",
+            hidden: true,
             onChange: function (inst, ui) {
                 inst.canfdNomBitRate = (80000 / (inst.nomBrp) / (1 + (inst.nomPropSeg + inst.nomPseg1) + inst.nomPseg2))
                 inst.canfdSamplingNomBitRate = (100 * (1 + (inst.nomPropSeg + inst.nomPseg1)) / (1 + (inst.nomPropSeg + inst.nomPseg1) + inst.nomPseg2))
@@ -1042,8 +1057,10 @@ let config = [
         },
         {
             name: "nomSjw",
-            displayName: "Nominal (Re)Synchronization Jump Width",
+            displayName: "Nominal (Re)Sync Jump Width",
+            description: "Nominal (Re)Synchronization Jump Width",
             default: 1,
+            hidden: true,
             displayFormat: "dec",
         },
         {
@@ -1052,6 +1069,7 @@ let config = [
             default: 1000,
             description: "Recommended sampling point should be between 85 to 90 percent",
             readOnly: true,
+            hidden: true,
             displayFormat: "dec",
             longDescription: `Bit rate (bits per second) = (CAN clock in Hz) / BRP / (1 + TSEG1 + TSEG2). \t
                               CAN clock is functional clock of CAN module (80MHz by default in TDA4) \t
@@ -1066,13 +1084,16 @@ let config = [
             default: 85,
             description: "Recommended sampling point should be between 85 to 90 percent",
             readOnly: true,
+            hidden: true,
             displayFormat: "dec",
             longDescription: " Sampling Point(%) = 100 * (1 + TSEG1) / (1 + TSEG1 + TSEG2) "
         },
         {
             name: "dataBrp",
             displayName: "Prescalar Value for Data Bitrate",
+            description: "Prescalar Value for Data Bitrate",
             default: 2,
+            hidden: true,
             displayFormat: "dec",
             onChange: function (inst, ui) {
                 inst.canfdDataBitRate = (80000 / (inst.dataBrp) / (1 + (inst.dataPropSeg + inst.dataPseg1) + inst.dataPseg2))
@@ -1080,8 +1101,10 @@ let config = [
         },
         {
             name: "dataPropSeg",
-            displayName: "Prop Segment value for Data Bitrate",
+            displayName: "Prop Segment value",
+            description: "Prop Segment value for Data Bitrate",
             default: 2,
+            hidden: true,
             displayFormat: "dec",
             onChange: function (inst, ui) {
                 inst.canfdDataBitRate = (80000 / (inst.dataBrp) / (1 + (inst.dataPropSeg + inst.dataPseg1) + inst.dataPseg2))
@@ -1090,8 +1113,10 @@ let config = [
         },
         {
             name: "dataPseg1",
-            displayName: "Phase Segment1 value for Data Bitrate",
+            displayName: "Phase Segment1 value",
+            description: "Phase Segment1 value for Data Bitrate",
             default: 2,
+            hidden: true,
             displayFormat: "dec",
             onChange: function (inst, ui) {
                 inst.canfdDataBitRate = (80000 / (inst.dataBrp) / (1 + (inst.dataPropSeg + inst.dataPseg1) + inst.dataPseg2))
@@ -1100,8 +1125,10 @@ let config = [
         },
         {
             name: "dataPseg2",
-            displayName: "Phase Segment2 value for Data Bitrate",
+            displayName: "Phase Segment2 value",
+            description: "Phase Segment2 value for Data Bitrate",
             default: 3,
+            hidden: true,
             displayFormat: "dec",
             onChange: function (inst, ui) {
                 inst.canfdDataBitRate = (80000 / (inst.dataBrp) / (1 + (inst.dataPropSeg + inst.dataPseg1) + inst.dataPseg2))
@@ -1110,8 +1137,10 @@ let config = [
         },
         {
             name: "dataSjw",
-            displayName: "(Re)Synchronization Jump Width for Data Bitrate ",
+            displayName: "Data Sync Jump Width",
+            description: "(Re)Synchronization Jump Width for Data Bitrate ",
             default: 1,
+            hidden: true,
             displayFormat: "dec",
         },
         {
@@ -1120,28 +1149,30 @@ let config = [
             default: 5000,
             description: "Recommended sampling point should be between 85 to 90 percent",
             readOnly: true,
+            hidden: true,
             displayFormat: "dec",
         },
         {
             name: "canfdSamplingDataBitRate",
-            displayName: "Sampling Point For Data Bitrate",
+            displayName: "Data Bitrate Sampling Point",
             default: 87.5,
             description: "Recommended sampling point should be between 85 to 90 percent",
             readOnly: true,
+            hidden: true,
             displayFormat: "dec",
         },
         ],
     },
     {
         name: "GROUP_LLD_BITRATECONFIG",
-        displayName: "Bit-rate Config for LLD",
+        displayName: "Config Bit-rate for LLD",
         longDescription: "The parameters for bit timing calculation. Bit timing related to data phase will be valid only in case where MCAN is put in CANFD mode and will be '0' otherwise.",
         config : [
         {
             name: "nomRatePrescalar",
             displayName: "Prescalar Value for Nom Bitrate",
             default: 3,
-            hidden: true,
+            hidden: false,
             displayFormat: "dec",
             onChange: function (inst, ui) {
                 inst.nomBitRate = 80000 / (inst.nomRatePrescalar + 1) / (3 + inst.nomTimeSeg1 + inst.nomTimeSeg2)
@@ -1151,7 +1182,7 @@ let config = [
             name: "nomTimeSeg1",
             displayName: "Time Seg 1 Value for Nom Bitrate",
             default: 15,
-            hidden: true,
+            hidden: false,
             displayFormat: "dec",
             onChange: function (inst, ui) {
                 inst.nomBitRate = 80000 / (inst.nomRatePrescalar + 1) / (3 + inst.nomTimeSeg1 + inst.nomTimeSeg2)
@@ -1162,7 +1193,7 @@ let config = [
             name: "nomTimeSeg2",
             displayName: "Time Seg 2 Value for Nom Bitrate",
             default: 2,
-            hidden: true,
+            hidden: false,
             displayFormat: "dec",
             onChange: function (inst, ui) {
                 inst.nomBitRate = 80000 / (inst.nomRatePrescalar + 1) / (3 + inst.nomTimeSeg1 + inst.nomTimeSeg2)
@@ -1173,7 +1204,7 @@ let config = [
             name: "nomSynchJumpWidth",
             displayName: "Synch Jump Width for Nom Bitrate",
             default: 0,
-            hidden: true,
+            hidden: false,
             displayFormat: "dec",
         },
         {
@@ -1182,7 +1213,7 @@ let config = [
             default: 1000,
             description: "Recommended sampling point should be between 85 to 90 percent",
             readOnly: true,
-            hidden: true,
+            hidden: false,
             displayFormat: "dec",
             longDescription: `Bit rate (bits per second) = (CAN clock in Hz) / BRP / (1 + TSEG1 + TSEG2). \t
                               CAN clock is functional clock of CAN module (80MHz by default in TDA4) \t
@@ -1197,7 +1228,7 @@ let config = [
             default: 85,
             description: "Recommended sampling point should be between 85 to 90 percent",
             readOnly: true,
-            hidden: true,
+            hidden: false,
             displayFormat: "dec",
             longDescription: ` Sampling Point(%) = 100 * (1 + TSEG1) / (1 + TSEG1 + TSEG2) \t
                                NOTE: +1 needs to be added in this formula to the BRP, TSEG1 and TSEG2 values while computing the sampling point due to implementation details.`,
@@ -1207,7 +1238,7 @@ let config = [
             displayName: "Prescalar Value for Data Bitrate",
             default: 1,
             displayFormat: "dec",
-            hidden: true,
+            hidden: false,
             onChange: function (inst, ui) {
                 inst.dataBitRate = 80000 / (inst.dataRatePrescalar + 1) / (3 + inst.dataTimeSeg1 + inst.dataTimeSeg2)
             }
@@ -1217,7 +1248,7 @@ let config = [
             displayName: "Time Seg 1 Value for Data Bitrate",
             default: 5,
             displayFormat: "dec",
-            hidden: true,
+            hidden: false,
             onChange: function (inst, ui) {
                 inst.dataBitRate = 80000 / (inst.dataRatePrescalar + 1) / (3 + inst.dataTimeSeg1 + inst.dataTimeSeg2)
                 inst.samplingDataBitRate = (2 + inst.dataTimeSeg1) / (3 + inst.dataTimeSeg1 + inst.dataTimeSeg2) * 100
@@ -1227,7 +1258,7 @@ let config = [
             name: "dataTimeSeg2",
             displayName: "Time Seg 2 Value for Data Bitrate",
             default: 0,
-            hidden: true,
+            hidden: false,
             displayFormat: "dec",
             onChange: function (inst, ui) {
                 inst.dataBitRate = 80000 / (inst.dataRatePrescalar + 1) / (3 + inst.dataTimeSeg1 + inst.dataTimeSeg2)
@@ -1238,7 +1269,7 @@ let config = [
             name: "dataSynchJumpWidth",
             displayName: "Synch Jump Width for Data Bitrate",
             default: 0,
-            hidden: true,
+            hidden: false,
             displayFormat: "dec",
         },
         {
@@ -1246,7 +1277,7 @@ let config = [
             displayName: "Effective Data Bitrate (Kbps)",
             default: 5000,
             description: "Recommended sampling point should be between 85 to 90 percent",
-            readOnly: true,
+            readOnly: false,
             displayFormat: "dec",
         },
         {
@@ -1254,7 +1285,7 @@ let config = [
             displayName: "Sampling Point For Data Bitrate",
             default: 87.5,
             description: "Recommended sampling point should be between 85 to 90 percent",
-            readOnly: true,
+            readOnly: false,
             displayFormat: "dec",
         },
         ],
@@ -1304,7 +1335,7 @@ let mcan_module = {
         }]
     },
     config: config,
-    sharedModuleInstances: moduleInstances,
+    sharedModuleInstances: addModuleInstances,
     getInstanceConfig,
     pinmuxRequirements,
     getInterfaceName,
@@ -1321,9 +1352,9 @@ function onMigrate(newInst, oldInst, oldSystem) {
 }
 
 /*
- *  ======== moduleInstances ========
+ *  ======== addModuleInstances ========
  */
-function moduleInstances(inst) {
+function addModuleInstances(inst) {
     let modInstances = new Array();
 
     if( inst.sdkInfra == "HLD")
