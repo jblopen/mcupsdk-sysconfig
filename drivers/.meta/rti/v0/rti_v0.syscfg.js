@@ -343,8 +343,6 @@ let timer_module = {
                             ui.usecPerTick0.hidden = false;
                             ui.actualUsecPerTick0.hidden = false;
                             ui.enableIntr0.hidden = false;
-                            ui.intrPriority0.hidden = false;
-                            ui.eventCallback0.hidden = false;
                             ui.enableDmaTrigger0.hidden = false;
                         }
                         else
@@ -354,8 +352,6 @@ let timer_module = {
                             ui.usecPerTick0.hidden = true;
                             ui.actualUsecPerTick0.hidden = true;
                             ui.enableIntr0.hidden = true;
-                            ui.intrPriority0.hidden = true;
-                            ui.eventCallback0.hidden = true;
                             ui.enableDmaTrigger0.hidden = true;
                         }
                     },
@@ -461,8 +457,6 @@ let timer_module = {
                             ui.usecPerTick1.hidden = false;
                             ui.actualUsecPerTick1.hidden = false;
                             ui.enableIntr1.hidden = false;
-                            ui.intrPriority1.hidden = false;
-                            ui.eventCallback1.hidden = false;
                             ui.enableDmaTrigger1.hidden = false;
                         }
                         else
@@ -472,8 +466,6 @@ let timer_module = {
                             ui.usecPerTick1.hidden = true;
                             ui.actualUsecPerTick1.hidden = true;
                             ui.enableIntr1.hidden = true;
-                            ui.intrPriority1.hidden = true;
-                            ui.eventCallback1.hidden = true;
                             ui.enableDmaTrigger1.hidden = true;
                         }
                     },
@@ -579,8 +571,6 @@ let timer_module = {
                             ui.usecPerTick2.hidden = false;
                             ui.actualUsecPerTick2.hidden = false;
                             ui.enableIntr2.hidden = false;
-                            ui.intrPriority2.hidden = false;
-                            ui.eventCallback2.hidden = false;
                             ui.enableDmaTrigger2.hidden = false;
                         }
                         else
@@ -590,8 +580,6 @@ let timer_module = {
                             ui.usecPerTick2.hidden = true;
                             ui.actualUsecPerTick2.hidden = true;
                             ui.enableIntr2.hidden = true;
-                            ui.intrPriority2.hidden = true;
-                            ui.eventCallback2.hidden = true;
                             ui.enableDmaTrigger2.hidden = true;
                         }
                     },
@@ -697,8 +685,6 @@ let timer_module = {
                             ui.usecPerTick3.hidden = false;
                             ui.actualUsecPerTick3.hidden = false;
                             ui.enableIntr3.hidden = false;
-                            ui.intrPriority3.hidden = false;
-                            ui.eventCallback3.hidden = false;
                             ui.enableDmaTrigger3.hidden = false;
                         }
                         else
@@ -708,8 +694,6 @@ let timer_module = {
                             ui.usecPerTick3.hidden = true;
                             ui.actualUsecPerTick3.hidden = true;
                             ui.enableIntr3.hidden = true;
-                            ui.intrPriority3.hidden = true;
-                            ui.eventCallback3.hidden = true;
                             ui.enableDmaTrigger3.hidden = true;
                         }
                     },
