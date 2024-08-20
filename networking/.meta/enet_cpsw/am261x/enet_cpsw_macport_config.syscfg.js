@@ -169,7 +169,7 @@ const enet_cpsw_macport_config = {
             displayName: "Rx MTU",
             default: 1518,
             isInteger: true,
-            range: [0, 9604],
+            range: [0, 1522],
             hidden: false,
         },
         {
